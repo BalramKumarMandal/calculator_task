@@ -18,14 +18,18 @@ function App() {
 
   const handleCalculate = () => {
     try {
+      // Check if the input ends with an operator or is incomplete
+      if (input.match(/[\+\-\*\/]$/) || input === '') {
+        setResult('Error');
+        return;
+      }
+
       // Evaluate the expression
       const evalResult = eval(input);
 
       // Handle special cases
-      if (input.includes('0/0')) {
+      if (Number.isNaN(evalResult)) {
         setResult('NaN');
-      } else if (Number.isNaN(evalResult)) {
-        setResult('Error');
       } else if (evalResult === Infinity) {
         setResult('Infinity');
       } else {
