@@ -1,3 +1,4 @@
+// src/Calculator.js
 import React, { useState } from 'react';
 import './Calculator.css'; // for styles
 
@@ -6,12 +7,8 @@ function App() {
   const [result, setResult] = useState('');
 
   const handleClick = (value) => {
-    if (result) {
-      setInput(value);
-      setResult('');
-    } else {
-      setInput(input + value);
-    }
+    // Append clicked button value to input
+    setInput((prev) => prev + value);
   };
 
   const handleClear = () => {
@@ -21,9 +18,13 @@ function App() {
 
   const handleCalculate = () => {
     try {
-      // Evaluating the expression
+      // Evaluate the expression
       const evalResult = eval(input);
-      if (Number.isNaN(evalResult)) {
+
+      // Handle special cases
+      if (input.includes('0/0')) {
+        setResult('NaN');
+      } else if (Number.isNaN(evalResult)) {
         setResult('Error');
       } else if (evalResult === Infinity) {
         setResult('Infinity');
@@ -63,7 +64,7 @@ function App() {
           C
         </button>
       </div>
-      {result && <div className="result">{result}</div>}
+      <div className="result">{result}</div>
     </div>
   );
 }
